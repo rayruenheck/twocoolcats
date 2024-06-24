@@ -1,8 +1,8 @@
-import { Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, Textarea, useToast } from '@chakra-ui/react'
+import { Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, Select, Textarea, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { sendContactForm } from '../lib/api'
 
-const initValues = { name: '', email: "", subject: "", message: "" }
+const initValues = { name: '', email: "", subject: "", message: "", service: "" }
 const initState = { values: initValues, isLoading: false, error: '' }
 
 export default function Contact() {
@@ -11,7 +11,7 @@ export default function Contact() {
   const { values, isLoading, error } = state
   const toast = useToast()
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { target } = event
     setState((prev) => ({
       ...prev,
@@ -22,7 +22,7 @@ export default function Contact() {
     }))
   }
 
-  const onBlur = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onBlur = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { target } = event
     setTouched((prev) => ({
       ...prev,
@@ -88,7 +88,7 @@ export default function Contact() {
         <FormErrorMessage>Required</FormErrorMessage>
       </FormControl>
       <FormControl isRequired isInvalid={touched.subject && !values.subject} mt={4} mb={5}>
-        <FormLabel>Subject</FormLabel>
+        <FormLabel>Current URL</FormLabel>
         <Input
           type='text'
           name='subject'
@@ -98,10 +98,27 @@ export default function Contact() {
         />
         <FormErrorMessage>Required</FormErrorMessage>
       </FormControl>
+      <FormControl isRequired isInvalid={touched.service && !values.service} mt={4} mb={5}>
+        <FormLabel>Service of Current URL</FormLabel>
+        <Select
+          name='service'
+          placeholder='Select option'
+          value={values.service}
+          onChange={handleChange}
+          onBlur={onBlur}
+        >
+          <option value='Wordpress'>Wordpress</option>
+          <option value='Joomla'>Joomla</option>
+          <option value='javascript'>Javascript</option>
+          <option value='other'>Other</option>
+        </Select>
+        <FormErrorMessage>Required</FormErrorMessage>
+      </FormControl>
       <FormControl isRequired isInvalid={touched.message && !values.message} mt={4} mb={5}>
         <FormLabel>Message</FormLabel>
         <Textarea
           name='message'
+          placeholder='If other is selected, mention here'
           rows={4}
           value={values.message}
           onChange={handleChange}
@@ -114,7 +131,7 @@ export default function Contact() {
         variant="outline"
         colorScheme='blue'
         isLoading={isLoading}
-        disabled={!values.email || !values.message || !values.name || !values.subject}
+        disabled={!values.email || !values.message || !values.name || !values.subject || !values.service}
         onClick={onSubmit}
       >
         Submit
@@ -125,3 +142,5 @@ export default function Contact() {
     </Container>
   )
 }
+
+

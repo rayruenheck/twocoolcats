@@ -24,7 +24,7 @@ export async function POST(request: Request) {
         to: process.env.EMAIL_USER, // Change this to the recipient's email
         subject: `Contact Form Submission from ${data.name}`,
         text: `Message from ${data.name} (${data.email}):\n\n${data.message}`,
-        html: `<p>Message from <strong>${data.name}</strong> (${data.email}):</p><p>${data.message}</p>`,
+        html: `<p>Message from <strong>${data.name}</strong> (${data.email}):</p><p>${data.message}</p><p>${data.service}</p>`,
     };
 
     try {
