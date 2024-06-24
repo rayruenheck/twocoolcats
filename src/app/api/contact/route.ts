@@ -4,11 +4,11 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_SERVER,
-    port: parseInt(process.env.EMAIL_PORT || '465', 10),
-    secure: process.env.EMAIL_PORT === '465', // Use true for 465, false for other ports
+    service: "gmail",
+    host: 'smtp.gmail.com',
+    secure: true,
     auth: {
-        user: process.env.EMAIL_USER,
+        user: process.env.EMAIL_ADMIN,
         pass: process.env.EMAIL_PASS,
     },
 });

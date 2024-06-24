@@ -7,7 +7,7 @@ interface ContactFormData {
 }
 
 export const sendContactForm = async (data: ContactFormData) => {
-    const response = await fetch('https://twocoolcats.vercel.app/api/contact', {
+    const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
