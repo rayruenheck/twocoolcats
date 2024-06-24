@@ -3,7 +3,7 @@ interface ContactFormData {
     email: string;
     subject: string;
     message: string;
-    captcha: string;
+    captcha : string
 }
 
 export const sendContactForm = async (data: ContactFormData) => {
