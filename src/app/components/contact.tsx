@@ -62,7 +62,7 @@ export default function Contact() {
   }
 
   return (
-    <Container display="flex" flexDirection="column" align="center" justify="center" maxW="450px" mt={12}>
+    <Container display="flex" flexDirection="column" alignItems="center" justifyContent="center" maxW="450px" mt={12}>
       <Heading mb={5}>Contact</Heading>
       <FormControl isRequired isInvalid={touched.name && !values.name} mb={5}>
         <FormLabel>Name</FormLabel>
