@@ -1,30 +1,42 @@
+// app/api/contact/route.ts
+
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
-    service : 'gmail',
-    host: 'smtp.gmail.com',
-    secure: true, 
+    host: process.env.EMAIL_SERVER,
+    port: parseInt(process.env.EMAIL_PORT || '465', 10),
+    secure: process.env.EMAIL_PORT === '465', // Use true for 465, false for other ports
     auth: {
-        user: process.env.EMAIL_ADMIN,
+        user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
 });
 
-export async function GET(request: Request) {
-    return NextResponse.json({ name: 'John Doe' });
-}
+const verifyCaptcha = async (token: string) => {
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+    const response = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`, {
+        method: 'POST',
+    });
+    const data = await response.json();
+    return data.success;
+};
 
 export async function POST(request: Request) {
     const data = await request.json();
     
+    const captchaValid = await verifyCaptcha(data.captcha);
+    if (!captchaValid) {
+        return NextResponse.json({ message: 'Invalid CAPTCHA' }, { status: 400 });
+    }
+    
     // Prepare the email data
     const mailData = {
-        from: data.email,
+        from: process.env.EMAIL_USER,
         to: process.env.EMAIL_USER, // Change this to the recipient's email
         subject: `Contact Form Submission from ${data.name}`,
         text: `Message from ${data.name} (${data.email}):\n\n${data.message}`,
-        html: `<p>Message from <strong>${data.name}</strong> (${data.email}):</p><p>${data.message}</p><p>${data.service}</p>`,
+        html: `<p>Message from <strong>${data.name}</strong> (${data.email}):</p><p>${data.message}</p>`,
     };
 
     try {

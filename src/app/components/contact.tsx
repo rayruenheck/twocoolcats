@@ -1,14 +1,15 @@
 import { Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, Select, Textarea, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { sendContactForm } from '../lib/api'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 const initValues = { name: '', email: "", subject: "", message: "", service: "" }
-const initState = { values: initValues, isLoading: false, error: '' }
+const initState = { values: initValues, isLoading: false, error: '', captcha: '' }
 
 export default function Contact() {
   const [state, setState] = useState(initState)
   const [touched, setTouched] = useState<{ [key: string]: boolean }>({})
-  const { values, isLoading, error } = state
+  const { values, isLoading, error, captcha } = state
   const toast = useToast()
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -30,7 +31,22 @@ export default function Contact() {
     }))
   }
 
+  const onCaptchaChange = (value: string | null) => {
+    setState((prev) => ({
+      ...prev,
+      captcha: value || ''
+    }))
+  }
+
   const onSubmit = async () => {
+    if (!captcha) {
+      setState((prev) => ({
+        ...prev,
+        error: 'Please complete the CAPTCHA.'
+      }))
+      return
+    }
+
     setState((prev) => ({
       ...prev,
       isLoading: true,
@@ -38,7 +54,7 @@ export default function Contact() {
     }))
 
     try {
-      const response = await sendContactForm(values)
+      const response = await sendContactForm({ ...values, captcha })
       console.log('Response:', response)  // Log the response
 
       toast({
@@ -99,7 +115,7 @@ export default function Contact() {
         <FormErrorMessage>Required</FormErrorMessage>
       </FormControl>
       <FormControl isRequired isInvalid={touched.service && !values.service} mt={4} mb={5}>
-        <FormLabel>Service of Current URL</FormLabel>
+        <FormLabel>Programming Language</FormLabel>
         <Select
           name='service'
           placeholder='Select option'
@@ -126,12 +142,17 @@ export default function Contact() {
         />
         <FormErrorMessage>Required</FormErrorMessage>
       </FormControl>
+      <ReCAPTCHA
+        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
+        onChange={onCaptchaChange}
+      />
       <Button
         mb={12}
+        mt={4}
         variant="outline"
         colorScheme='blue'
         isLoading={isLoading}
-        disabled={!values.email || !values.message || !values.name || !values.subject || !values.service}
+        disabled={!values.email || !values.message || !values.name || !values.subject || !values.service || !captcha}
         onClick={onSubmit}
       >
         Submit
@@ -142,5 +163,3 @@ export default function Contact() {
     </Container>
   )
 }
-
-
