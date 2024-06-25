@@ -1,13 +1,11 @@
+import Image from 'next/image';
 import React from 'react';
 
 export default function Services() {
   const services = [
-    { title: 'Service 1', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    { title: 'Service 2', description: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
-    { title: 'Service 3', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.' },
-    { title: 'Service 4', description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.' },
-    { title: 'Service 5', description: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' },
-    { title: 'Service 6', description: 'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra.' },
+    { title: 'Websites', description: 'Custom websites are created with the customer\'s involvement. You give us your ideas and we will put them on the web! Working in JavaScript we are able to develop one of a kind websites. Want more of a CMS site? we can do that too!', img: '/website-icon.png' },
+    { title: 'Fixes', description: 'Have issues with your current site and don\'t want to abandon it completely? We\'ll do those fixes in a timely manner. We\'ve worked with Joomla!, HTML, Wix, Squarespace, and Weebly to name a few. Tell us what needs to be done. We\'re here to help!', img: '/fixes.png' },
+    { title: 'Databases', description: 'We can create all types of databases that are necessary for you to manage your business efficiently. From online stores to mailing lists we\'ll make sure it\'s painless.', img: '/database.png' },
   ];
 
   return (
@@ -20,12 +18,13 @@ export default function Services() {
           <div className="relative bg-white px-4 text-lg font-semibold">Services</div>
         </div>
   
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1  lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
             <div
               key={index}
-              className="p-6 h-[400px] rounded-lg shadow-lg transform transition-transform duration-300 hover:shadow-sm hover:scale-95"
+              className="p-6 h-auto rounded-lg shadow-lg transform transition-transform duration-300 hover:shadow-sm hover:scale-95"
             >
+              <Image src={service.img} alt={`${service.title} icon`} width={96} height={96} className="block mx-auto mb-10 mt-8" />
               <h2 className="text-xl font-bold mb-2">{service.title}</h2>
               <p>{service.description}</p>
             </div>
@@ -33,6 +32,6 @@ export default function Services() {
         </div>
       </div>
     </div>
-  );
+  )
   
 }

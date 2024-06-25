@@ -7,7 +7,7 @@ export default function Header() {
           <Image
             src="/kitty.jpg"
             alt="Kitty"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-1/5 h-full sm:object-cover"
             fill
           />
           <div className="relative z-10 flex flex-col items-center justify-center h-full bg-black bg-opacity-50">
