@@ -9,7 +9,7 @@ export default function Services() {
   ];
 
   return (
-    <div className="container mx-auto p-6">
+    <div id='services' className="container mx-auto p-6">
       <div className="bg-white p-6 w-full">
         <div className="relative flex items-center justify-center mb-6 w-full">
           <div className="absolute inset-0 flex items-center justify-center">
