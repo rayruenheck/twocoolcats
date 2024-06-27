@@ -24,7 +24,7 @@ export default function Services() {
               key={index}
               className="p-6 h-auto rounded-lg shadow-lg transform transition-transform duration-300 hover:shadow-sm hover:scale-95"
             >
-              <Image src={service.img} alt={`${service.title} icon`} width={96} height={96} className="block mx-auto mb-10 mt-8" />
+              <Image src={service.img} alt={`${service.title} icon`} width={96} height={96} className="block mx-auto h-[96px] w-[96px] mb-10 mt-8" />
               <h2 className="text-xl font-bold mb-2">{service.title}</h2>
               <p>{service.description}</p>
             </div>
