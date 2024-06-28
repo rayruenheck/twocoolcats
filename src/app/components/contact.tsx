@@ -64,8 +64,8 @@ export default function Contact() {
         duration: 5000,
         isClosable: true,
       })
-      setState(initState)  // Reset form values and loading state
-      setTouched({})  // Reset touched state
+      setState(initState)  
+      setTouched({})  
     } catch (error) {
       console.error('Error:', error)  // Log the error
 
